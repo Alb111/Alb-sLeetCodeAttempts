@@ -7,41 +7,30 @@
 # @lc code=start
 class Solution:
     def createDict(self, str):
-        temp = {}
+        temp = [0]*26
         for char in str:
-            if char in temp:
-                temp[char]+=1
-            else:
-                temp[char]=1
+            temp[ord(char)-97]+=1
         return temp
  
-    def checkDict(self, dict, str ):
-        temp = self.createDict(str)
-        return temp == dict
 
     def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
-        dictArray = []
-        dictArray.append(self.createDict(strs[0]))
-        for i in range(1,len(strs)):
-            toChange = True
-            for dict in dictArray:
-                if self.checkDict(dict,strs[i]):
-                    toChange = False
-            
-            if(toChange):
-                dictArray.append(self.createDict(strs[i]))
-                
-
         out = []
-        lol = []
-        for dict in dictArray:
-            for str in strs:
-                if(self.checkDict(dict,str)):
-                    lol.append(str)
-            out.append(lol)
-            lol = []
-
+        used = [False] * len(strs)
+        for i in range(len(strs)):
+            temp=[]
+            if(not used[i]):
+                str1 = self.createDict(strs[i])
+                temp.append(strs[i])
+                used[i] = True
+                for k in range(i+1, len(strs)):
+                    str2 = self.createDict(strs[k])
+                    if(str1 == str2):
+                        temp.append(strs[k])
+                        used[k] = True
+                out.append(temp)
         return out
+
+                
 
         
 # @lc code=end
