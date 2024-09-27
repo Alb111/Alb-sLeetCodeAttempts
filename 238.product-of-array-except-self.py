@@ -7,27 +7,30 @@
 # @lc code=start
 class Solution:
     def productExceptSelf(self, nums: List[int]) -> List[int]:
-        total = 1
-        zeros = 0
-        indexofZero = 0
-        for index, num in enumerate(nums):
-            if(num != 0):
-                total *= num
-            else:
-                zeros +=1
-                indexofZero = index
-        
-        out = [0] * len(nums) 
-        #if we have more than one 0 then all zero
-        if (zeros > 1):
-            return [0]*len(nums)
-        elif(zeros == 1):
-            out[indexofZero] = total
-            return out
-        else:
-            for index, num in enumerate(nums):
-                out[index] = (int)(total/num)
-            return out
+        prefix = [1] * len(nums)
+        postfix = [1] * len(nums)
+
+        # go through and find prefix values
+        temp = 1
+        for i in range(len(nums)):
+            prefix[i] =  temp;
+            temp *= nums[i];
+
+        #same thing bit backwards
+        temp = 1
+        for i in reversed(range(len(nums))):
+            postfix[i] =  temp;
+            temp *= nums[i];
+
+        #go through and multply postfix and prefix stuff togoether
+        out = [1] * len(nums)
+        for i in range(len(nums)):
+            out[i] = postfix[i] * prefix[i]
+
+        return out
+
+
+
 
 
             
