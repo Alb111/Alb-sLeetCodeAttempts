@@ -5,23 +5,22 @@ class TreeNode:
         self.left = left
         self.right = right
 
-class Solution:
-    def height(self, root):
-        if not root:
-            return 0
-        return 1 + max(self.height(root.left),
-                       self.height(root.right))
-           
+class Solution:           
     def isBalanced(self, root: Optional[TreeNode]) -> bool:
-        if root is None:
-            return True
+        def dfs(root: TreeNode) -> tuple[int, bool]:
+            if root is None:
+                return (0, True)         
+            else:
+                left: tuple[int, bool] = dfs(root.left)
+                right: tuple[int, bool] = dfs(root.right)
 
-        left_height: int = self.height(root.left)
-        right_height: int = self.height(root.right)
+                if left[1] and right[1] and abs(left[0]-right[0]) <= 1:
+                    return (1 + max(left[0], right[0]), True)
+                else:
+                    return (1 + max(left[0], right[0]), False)
 
-        if abs(left_height - right_height) > 1:
-            return False
+        return dfs(root)[1]
+                    
 
-        return self.isBalanced(root.left) and self.isBalanced(root.right)
 
-        
+
