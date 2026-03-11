@@ -10,12 +10,8 @@ class PrefixTree:
 
     def __init__(self) -> None:
         self.head_node: PrefixTreeNode = PrefixTreeNode("dummy")
-        self.words: Set = set()
 
     def insert(self, word: str) -> None:
-        # track word
-        self.words.add(word)
-
         # make/parse a tree
         dummy_node: PrefixTreeNode = self.head_node
         for char in word:
@@ -47,7 +43,6 @@ class PrefixTree:
         # parse tree
         dummy_node: PrefixTreeNode = self.head_node
         for char in prefix:
-            print(dummy_node.char)
             if char in dummy_node.leaves:
                 # go into that leaf
                 dummy_node = dummy_node.leaves[char]
